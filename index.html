@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="BudgetFlow — a professional personal budgeting dashboard with Gemini AI financial guidance.">
+<meta name="theme-color" content="#0b1220">
+<title>BudgetFlow — Smart Budgeting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="logo">£</div><div><strong>BudgetFlow</strong><span>Money, organised.</span></div></div>
+    <nav>
+      <button class="nav-item active" data-view="dashboard">⌂ <span>Dashboard</span></button>
+      <button class="nav-item" data-view="transactions">↕ <span>Transactions</span></button>
+      <button class="nav-item" data-view="budgets">◫ <span>Budgets</span></button>
+      <button class="nav-item" data-view="goals">◎ <span>Savings goals</span></button>
+      <button class="nav-item" data-view="ai">✦ <span>AI advisor</span><b class="nav-badge">AI</b></button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="nav-item" id="settingsBtn">⚙ <span>Settings</span></button>
+      <div class="mini-tip"><span>✦</span><div><strong>AI insight</strong><p>Your data stays in this browser unless you send it to Gemini.</p></div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="mobile-menu" id="mobileMenu">☰</button>
+      <div><p class="eyebrow" id="welcomeEyebrow">YOUR MONEY, YOUR PLAN</p><h1 id="pageTitle">Dashboard</h1></div>
+      <div class="top-actions"><button class="icon-btn" id="quickAdd" title="Add transaction">＋</button><button class="avatar">BF</button></div>
+    </header>
+
+    <div class="view" id="dashboardView">
+      <section class="hero-panel">
+        <div><span class="status-chip"><i></i> Budget on track</span><h2>Good money habits<br><em>start with visibility.</em></h2><p>Track income, spending, budgets and savings in one clean dashboard.</p><div class="hero-buttons"><button class="btn primary" data-open="transactions">Add a transaction <b>→</b></button><button class="btn soft" data-open="ai">Ask the AI</button></div></div>
+        <div class="hero-ring"><div class="ring"><div><strong id="safeToSpend">£0</strong><span>safe to spend</span></div></div><div class="ring-caption"><span>This month</span><strong id="monthProgress">0%</strong></div></div>
+      </section>
+
+      <section class="metric-grid">
+        <article class="metric-card"><div class="metric-icon income">↑</div><div><span>Income</span><strong id="incomeMetric">£0</strong><small id="incomeSub">this month</small></div></article>
+        <article class="metric-card"><div class="metric-icon expense">↓</div><div><span>Spent</span><strong id="spentMetric">£0</strong><small id="spentSub">this month</small></div></article>
+        <article class="metric-card"><div class="metric-icon saving">◌</div><div><span>Saved</span><strong id="savedMetric">£0</strong><small id="savedSub">this month</small></div></article>
+        <article class="metric-card"><div class="metric-icon rate">%</div><div><span>Savings rate</span><strong id="savingRateMetric">0%</strong><small>of income</small></div></article>
+      </section>
+
+      <section class="grid-2">
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">SPENDING</p><h3>Where your money goes</h3></div><span class="small-muted" id="spendMonthLabel">Current month</span></div><div class="bars" id="spendBars"></div></article>
+        <article class="panel"><div class="panel-head"><div><p class="eyebrow">BUDGET HEALTH</p><h3>Category limits</h3></div><button class="text-btn" data-open="budgets">View all →</button></div><div id="budgetMini"></div></article>
+      </section>
+
+      <section class="panel"><div class="panel-head"><div><p class="eyebrow">RECENT ACTIVITY</p><h3>Latest transactions</h3></div><button class="text-btn" data-open="transactions">See all →</button></div><div class="table-wrap"><table><thead><tr><th>Transaction</th><th>Category</th><th>Date</th><th>Amount</th></tr></thead><tbody id="recentTable"></tbody></table></div></section>
+    </div>
+
+    <div class="view hidden" id="transactionsView">
+      <section class="section-head"><div><p class="eyebrow">CASH FLOW</p><h2>Transactions</h2><p>Add income and expenses. Everything is stored locally in your browser.</p></div><button class="btn primary" id="addTransactionBtn">＋ Add transaction</button></section>
+      <div class="filter-card"><input id="transactionSearch" placeholder="Search transactions…"><select id="transactionType"><option value="all">All</option><option value="income">Income</option><option value="expense">Expense</option></select><select id="transactionCategory"><option value="all">All categories</option></select></div>
+      <section class="panel"><div class="table-wrap"><table><thead><tr><th>Transaction</th><th>Category</th><th>Type</th><th>Date</th><th>Amount</th><th></th></tr></thead><tbody id="transactionsTable"></tbody></table></div></section>
+    </div>
+
+    <div class="view hidden" id="budgetsView">
+      <section class="section-head"><div><p class="eyebrow">CONTROL</p><h2>Monthly budgets</h2><p>Set a limit for each category and keep an eye on your pace.</p></div><button class="btn primary" id="addBudgetBtn">＋ Add budget</button></section>
+      <section class="budget-grid" id="budgetGrid"></section>
+    </div>
+
+    <div class="view hidden" id="goalsView">
+      <section class="section-head"><div><p class="eyebrow">FUTURE YOU</p><h2>Savings goals</h2><p>Create goals and watch them move forward as you save.</p></div><button class="btn primary" id="addGoalBtn">＋ Add goal</button></section>
+      <section class="goal-grid" id="goalGrid"></section>
+    </div>
+
+    <div class="view hidden" id="aiView">
+      <section class="ai-hero"><div><span class="status-chip ai-chip">✦ GEMINI AI</span><h2>Your personal budgeting advisor.</h2><p>Ask questions about your budget, savings goals, spending patterns or plans. The app prepares a snapshot of your local data and sends it to Gemini only when you ask.</p></div><div class="model-pill">gemini-3.7-flash</div></section>
+      <section class="ai-layout">
+        <div class="panel chat-panel"><div class="chat-messages" id="chatMessages"><div class="assistant-msg"><strong>BudgetFlow AI</strong><p>Hi! I can help you understand your spending and build a realistic plan. Ask me something like “Where could I cut £100 this month?”</p></div></div><form class="chat-form" id="chatForm"><textarea id="chatInput" rows="2" placeholder="Ask about your budget…" required></textarea><button class="btn primary" type="submit" id="sendAiBtn">Send <span>→</span></button></form><div class="prompt-row"><button data-prompt="Analyse my spending and tell me the three biggest opportunities to save money.">Analyse my spending</button><button data-prompt="Make me a realistic plan to save £500 based on my current budget.">Plan £500 savings</button><button data-prompt="Find any categories where I am overspending compared with my budget.">Check overspending</button></div></div>
+        <div class="panel api-panel"><div class="panel-head"><div><p class="eyebrow">CONNECTION</p><h3>Gemini API</h3></div><span class="connection-dot" id="apiStatusDot"></span></div><p class="small-muted">Add your Gemini API key to enable the advisor. The key is kept only in this browser's local storage.</p><label class="field"><span>API key</span><input id="apiKeyInput" type="password" placeholder="AIza…"><div class="field-actions"><button class="btn primary" id="saveApiKey" type="button">Save key</button><button class="btn soft" id="clearApiKey" type="button">Clear</button></div></label><div class="notice"><strong>Security note</strong><p>Because GitHub Pages is a static site, a browser-entered API key is visible to the browser and should not be used for a public multi-user production app. Never commit a real key to GitHub.</p></div></div>
+      </section>
+    </div>
+
+    <footer class="app-footer">BudgetFlow is a budgeting tool, not financial advice. Figures are estimates and can be wrong. © 2026 BudgetFlow.</footer>
+  </main>
+</div>
+
+<div class="modal hidden" id="transactionModal"><div class="modal-card"><button class="modal-close" data-close="transactionModal">×</button><p class="eyebrow">NEW ENTRY</p><h2>Add transaction</h2><form id="transactionForm"><label class="field"><span>Name</span><input id="txName" required placeholder="e.g. Supermarket"></label><div class="form-grid"><label class="field"><span>Amount</span><input id="txAmount" required type="number" min="0.01" step="0.01" placeholder="25.00"></label><label class="field"><span>Type</span><select id="txType"><option value="expense">Expense</option><option value="income">Income</option></select></label></div><div class="form-grid"><label class="field"><span>Category</span><select id="txCategory"></select></label><label class="field"><span>Date</span><input id="txDate" type="date" required></label></div><button class="btn primary full" type="submit">Add transaction</button></form></div></div>
+<div class="modal hidden" id="budgetModal"><div class="modal-card"><button class="modal-close" data-close="budgetModal">×</button><p class="eyebrow">BUDGET</p><h2>Set monthly budget</h2><form id="budgetForm"><label class="field"><span>Category</span><select id="budgetCategory"></select></label><label class="field"><span>Limit</span><input id="budgetAmount" type="number" min="1" step="1" required placeholder="300"></label><button class="btn primary full">Save budget</button></form></div></div>
+<div class="modal hidden" id="goalModal"><div class="modal-card"><button class="modal-close" data-close="goalModal">×</button><p class="eyebrow">SAVINGS GOAL</p><h2>Create goal</h2><form id="goalForm"><label class="field"><span>Goal name</span><input id="goalName" required placeholder="New laptop"></label><div class="form-grid"><label class="field"><span>Target</span><input id="goalTarget" type="number" min="1" step="1" required placeholder="1000"></label><label class="field"><span>Starting amount</span><input id="goalCurrent" type="number" min="0" step="1" value="0"></label></div><label class="field"><span>Target date</span><input id="goalDate" type="date"></label><button class="btn primary full">Create goal</button></form></div></div>
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
